@@ -46,7 +46,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   } );
   /*app.get( "/filteredimage", ( req: Request, res: Response ) => {
     res.status(200).send("Welcome to the Cloud!");
-  } );*////////////
+  } );*/////////////////
 
   
 
