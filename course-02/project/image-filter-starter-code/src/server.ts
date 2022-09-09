@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -33,9 +33,21 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    app.get( "/filteredimage", async( req: Request, res: Response ) => {
+    let imagePublicUrl = (req.query.image_url)
+    if(!imagePublicUrl){
+    return res.status(400).send('une image est requise')
+    }
+    let resultImageFilter: string = await filterImageFromURL(imagePublicUrl)
+     return res.status(200).sendFile(resultImageFilter, ()=>{
+      console.log('image filtre')
+      deleteLocalFiles([resultImageFilter])
+    })
   } );
+  /*app.get( "/filteredimage", ( req: Request, res: Response ) => {
+    res.status(200).send("Welcome to the Cloud!");
+  } );*/
+
   
 
   // Start the Server
